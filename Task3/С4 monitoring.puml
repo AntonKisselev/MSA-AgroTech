@@ -1,0 +1,57 @@
+@startuml
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+class User {
+  +String name
+  +String email
+  +List<Role> roles
+  +void register()
+  +void login()
+  +void assignRole(Role)
+}
+
+class Role {
+    +Integer id
+    +String name
+}
+
+User "1" -- "0..*" Role : has
+
+
+class Farm{
+    +string name
+    +string location
+}
+
+class Metrika{
+    +string name
+}
+
+class MetrikaValue{
+    +Metrika metrika
+    +Farm farm
+    +Float value
+    +DateTime when
+}
+
+MetrikaValue "0..*" -- "1" Farm
+MetrikaValue "0..*" -- "1" Metrika
+
+
+class Incident{
+    +String name
+}
+
+class IncidentOccurred{
+    +Incident incident
+    +List<MetrikaValue> data
+    +User responsible
+}
+
+IncidentOccurred "0..*" -- "1" Incident
+IncidentOccurred "1" -- "0..*" MetrikaValue
+IncidentOccurred "0..*" -- "1" User
+
+@enduml
